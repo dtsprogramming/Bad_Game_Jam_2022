@@ -13,6 +13,12 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Transform groundCheck;
     [SerializeField] private LayerMask ground;
 
+    [Header("Jump Audio")]
+    [SerializeField] private AudioClip jumpSound;
+    [SerializeField] private AudioClip landSound;
+    [SerializeField] private AudioSource JumpAudio;
+    [SerializeField] private AudioSource LandAudio;
+
     private Rigidbody rb;
     private Transform tf;
     private float horizontalMove;
@@ -43,7 +49,11 @@ public class PlayerController : MonoBehaviour
         {
             FinalPlatformMotion();
         }
-        
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        LandAudio.PlayOneShot(landSound);
     }
 
     private void CheckForInput()
@@ -92,6 +102,7 @@ public class PlayerController : MonoBehaviour
     private void PlayerJump()
     {
         rb.velocity = Vector3.up * jumpVelocity;
+        JumpAudio.PlayOneShot(jumpSound);
     }
 
     private void ImprovedJumpMechanics()
